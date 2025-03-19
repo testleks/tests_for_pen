@@ -1,2 +1,2 @@
-# tests_for_pen
+# pen
 tests for class pen
