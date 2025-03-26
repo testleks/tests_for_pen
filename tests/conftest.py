@@ -1,10 +1,12 @@
 import pytest
 from Pen import Pen
+import allure
 
 
-@pytest.fixture
-def default_pen():
-    return Pen()
+with allure.step("Create default pen"):
+    @pytest.fixture
+    def default_pen():
+        return Pen()
 
 
 @pytest.fixture
@@ -12,9 +14,10 @@ def small_ink_pen():
     return Pen(ink_container_value=5, size_letter=2, color="black")
 
 
-@pytest.fixture
-def empty_pen():
-    return Pen(ink_container_value=0)
+with allure.step("Create default pen"):
+    @pytest.fixture
+    def empty_pen():
+        return Pen(ink_container_value=0)
 
 
 @pytest.fixture

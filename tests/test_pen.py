@@ -1,9 +1,13 @@
-import pytest
 from Pen import Pen
+import allure
 
 
+@allure.title("Тестирование класса Pen")
+@allure.feature("Pen")
+@allure.story("default values")
 def test_default_ink(default_pen):
-    assert default_pen.ink_container_value == 1000
+    with allure.step("сравниваем чернила по умолчанию"):
+        assert default_pen.ink_container_value == 1000
 
 
 def test_default_size_letter(default_pen):
@@ -14,13 +18,24 @@ def test_default_get_color(default_pen):
     assert default_pen.get_color() == "blue"
 
 
-def test_custom_get_color(small_ink_pen):
-    assert small_ink_pen.get_color() == "black"
+def test_write_long_text(default_pen):
+    text = "Example" * 200
+    written_text = default_pen.write(text)
+    assert len(written_text) == 1000
 
 
+def test_write_empty_string(default_pen):
+    assert default_pen.write("") == ""
+
+
+@allure.story("another values")
 def test_check_pen_state(default_pen, empty_pen):
     assert default_pen.check_pen_state() is True
     assert empty_pen.check_pen_state() is False
+
+
+def test_custom_get_color(small_ink_pen):
+    assert small_ink_pen.get_color() == "black"
 
 
 def test_do_something_else(capfd):
@@ -28,12 +43,6 @@ def test_do_something_else(capfd):
     pen.do_something_else()
     captured = capfd.readouterr()
     assert "black" in captured.out
-
-
-def test_write_long_text(default_pen):
-    text = "Example" * 200
-    written_text = default_pen.write(text)
-    assert len(written_text) == 1000
 
 
 def test_write_without_ink():
@@ -48,11 +57,7 @@ def test_write_partial_word(small_ink_pen):
 
 def test_remain_ink(small_ink_pen):
     result = small_ink_pen.write("Example")
-    assert small_ink_pen.ink_container_value == 1
-
-
-def test_write_empty_string(default_pen):
-    assert default_pen.write("") == ""
+    assert small_ink_pen.ink_container_value == result
 
 
 def test_empty_write(empty_pen):
